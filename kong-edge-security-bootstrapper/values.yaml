@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: c8n.io/monkeypatched-iot/kong-edge/security-bootstrapper:latest
+  repository: c8n.io/monkeypatched-iot/kong-edge/security-bootstrapper@sha256:c5981df5c6f48374cff3aa4638cb647e49040599294621ee6558590c76718f3d
   pullPolicy: Always
 imagePullSecrets:
   - name: regcred

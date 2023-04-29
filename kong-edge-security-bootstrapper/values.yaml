@@ -6,6 +6,7 @@ replicaCount: 1
 image:
   repository: c8n.io/monkeypatched-iot/kong-edge/security-bootstrapper@sha256:c5981df5c6f48374cff3aa4638cb647e49040599294621ee6558590c76718f3d
   pullPolicy: Always
+  name: edgex-security-bootstrapper
 imagePullSecrets:
   - name: regcred
 
@@ -68,7 +69,8 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+nodeSelector: 
+  kubernetes.io/hostname: "k3d-testcluster-server-0"
 
 tolerations: []
 
@@ -90,3 +92,19 @@ env:
  STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
  STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
  STAGEGATE_WAITFOR_TIMEOUT: 60s
+
+volumes:
+  - name: edgex-init
+    mountPath: /
+   
+volumeMounts:
+- name: edgex-init
+  mountPath: /
+
+hostname: edgex-security-bootstrapper
+restartPolicy: Always
+
+tolerations:
+- key: "key"
+  operator: "Exists"
+  effect: "NoSchedule"

@@ -38,20 +38,14 @@ spec:
             - name: {{ $key }}
               value: {{ $val | quote }}
           {{- end }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}    
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | default "" | nindent 12 }} 
+      hostname: {{ .Values.hostname }}
+      restartPolicy: {{ .Values.restartpolicy }}
+      volumes:
+        {{- toYaml .Values.volumes | default "" | nindent 8 }} 
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

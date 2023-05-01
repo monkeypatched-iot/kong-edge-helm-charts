@@ -90,7 +90,7 @@ env:
  STAGEGATE_WAITFOR_TIMEOUT: 60s
 
 volumeMounts:
- - mountPath: /edgex-init
+ - mountPath: /
    name: edgex-init
 
 volumes:

@@ -1,16 +1,16 @@
-apiVersion: apps/v1
+6apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "kong-security-bootstrapper.fullname" . }}
+  name: {{ include "kong-edge-vault.fullname" . }}
   labels:
-    {{- include "kong-security-bootstrapper.labels" . | nindent 4 }}
+    {{- include "kong-edge-vault.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "kong-security-bootstrapper.selectorLabels" . | nindent 6 }}
+      {{- include "kong-edge-vault.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,21 +18,28 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "kong-security-bootstrapper.selectorLabels" . | nindent 8 }}
+        {{- include "kong-edge-vault.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "kong-security-bootstrapper.serviceAccountName" . }}
+      serviceAccountName: {{ include "kong-edge-vault.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
+        - args:
+            - server
+          command:
+            - /edgex-init/vault_wait_install.sh
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8200
+              hostIP: 127.0.0.1
           env:
           {{- range $key, $val := .Values.env }}
             - name: {{ $key }}

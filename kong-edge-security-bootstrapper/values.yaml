@@ -14,12 +14,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
   name: ""
 
 podAnnotations: {}
@@ -69,7 +65,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: 
+nodeSelector:
   kubernetes.io/hostname: "k3d-testcluster-server-0"
 
 tolerations: []
@@ -93,13 +89,14 @@ env:
  STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
  STAGEGATE_WAITFOR_TIMEOUT: 60s
 
-volumes:
-  - name: edgex-init
-    mountPath: /
-   
 volumeMounts:
-- name: edgex-init
-  mountPath: /
+ - mountPath: /edgex-init
+   name: edgex-init
+
+volumes:
+ - name: edgex-init
+   persistentVolumeClaim:
+     claimName: edgex-init
 
 hostname: edgex-security-bootstrapper
 restartPolicy: Always
@@ -108,3 +105,4 @@ tolerations:
 - key: "key"
   operator: "Exists"
   effect: "NoSchedule"
+

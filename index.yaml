@@ -1,14 +1,25 @@
 apiVersion: v1
 entries:
+  kong-edge-vault:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-05-01T15:56:12.798899716+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 01e68e879b3128ec2d5130365ad856b58f8813c47351d05efd0c151e33c529b7
+    name: kong-edge-vault
+    type: application
+    urls:
+    - https://monkeypatched-iot.github.io/kong-edge-helm-charts/kong-edge-vault-0.1.0.tgz
+    version: 0.1.0
   kong-security-bootstrapper:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-04-27T20:57:35.634635223+05:30"
+    created: "2023-05-01T15:56:12.799894836+05:30"
     description: security bootstrapper for kong edge
-    digest: 9947ceff9b41b5a7125cce7d96dd44cbfc60e24926acc8587021833d1870d2ad
+    digest: 510c754d3ff9c9d3dc4b140cbb070de8b930960e07799b54406a6f36d63e438f
     name: kong-security-bootstrapper
     type: application
     urls:
-    - https://github.com/monkeypatched-iot/kong-edge-helm-charts/kong-security-bootstrapper-0.1.0.tgz
+    - https://monkeypatched-iot.github.io/kong-edge-helm-charts/kong-security-bootstrapper-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-27T20:57:35.588613907+05:30"
+generated: "2023-05-01T15:56:12.797513772+05:30"

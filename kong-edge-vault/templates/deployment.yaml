@@ -28,33 +28,24 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - args:
-            - server
-          command:
-            - /edgex-init/vault_wait_install.sh
-          name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
           {{- end }}
-          volumeMounts:
-            {{- toYaml .Values.volumeMounts | default "" | nindent 12 }}
-          hostname: {{ .Values.hostname }}
-          restartPolicy: {{ .Values.restartPolicy }}
-          volumes:
-            {{- toYaml .Values.volumes | default "" | nindent 8 }}
-          ports:
-            - name: http
-              containerPort: 8200
-              protocol: TCP
-              hostIP: 127.0.0.1
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | default "" | nindent 12 }}
+      hostname: {{ .Values.hostname }}
+      restartPolicy: {{ .Values.restartpolicy }}
+      volumes:
+        {{- toYaml .Values.volumes | default "" | nindent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -67,4 +58,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-

@@ -1,0 +1,142 @@
+# Default values for kong-edge-consul.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: hashicorp/consul:1.15
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env:
+  EDGEX_ADD_REGISTRY_ACL_ROLES: ""
+  EDGEX_GROUP: "2001"
+  EDGEX_SECURITY_SECRET_STORE: "true"
+  EDGEX_USER: "2002"
+  PROXY_SETUP_HOST: edgex-security-proxy-setup
+  SECRETSTORE_HOST: edgex-vault
+  STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+  STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+  STAGEGATE_DATABASE_HOST: edgex-redis
+  STAGEGATE_DATABASE_PORT: "6379"
+  STAGEGATE_DATABASE_READYPORT: "6379"
+  STAGEGATE_READY_TORUNPORT: "54329"
+  STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
+  STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
+  STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
+  STAGEGATE_REGISTRY_HOST: edgex-core-consul
+  STAGEGATE_REGISTRY_PORT: "8500"
+  STAGEGATE_REGISTRY_READYPORT: "54324"
+  STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+  STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+  STAGEGATE_WAITFOR_TIMEOUT: 60s
+
+volumeMounts:
+  - mountPath: /consul/config
+    name: consul-config
+  - mountPath: /consul/data
+    name: consul-data
+  - mountPath: /edgex-init
+    name: edgex-init
+    readOnly: true
+  - mountPath: /tmp/edgex/secrets/consul-acl-token
+    name: consul-acl-token
+  - mountPath: /tmp/edgex/secrets/edgex-consul
+    name: consul-claim4
+    readOnly: true
+
+
+volumes:
+  - name: consul-config
+    persistentVolumeClaim:
+      claimName: consul-config
+  - name: consul-data
+    persistentVolumeClaim:
+      claimName: consul-data
+  - name: edgex-init
+    persistentVolumeClaim:
+      claimName: edgex-init
+      readOnly: true
+  - name: consul-acl-token
+    persistentVolumeClaim:
+      claimName: consul-acl-token
+  - name: consul-claim4
+    persistentVolumeClaim:
+      claimName: consul-claim4
+      readOnly: true
+
+
+hostname: edgex-core-consul
+restartPolicy: Always

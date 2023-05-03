@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kong-edge-redis-database.fullname" . }}
+  labels:
+    {{- include "kong-edge-redis-database.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "kong-edge-redis-database.selectorLabels" . | nindent 4 }}

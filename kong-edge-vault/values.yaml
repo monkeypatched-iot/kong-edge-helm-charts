@@ -30,7 +30,7 @@ securityContext:
       - IPC_LOCK
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 8200
 
 ingress:
@@ -40,7 +40,7 @@ ingress:
     kubernetes.io/ingress.class: vault
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: edgex-vault
+    - host: kong-edgex-vault
       paths:
         - path: /
           pathType: ImplementationSpecific

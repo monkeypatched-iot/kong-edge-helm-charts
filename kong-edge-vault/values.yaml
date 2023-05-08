@@ -30,8 +30,10 @@ securityContext:
       - IPC_LOCK
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8200
+  targetPort: 8200
+
 
 ingress:
   enabled: false
@@ -106,19 +108,19 @@ restartPolicy: Always
 
 env:
   PROXY_SETUP_HOST: edgex-security-proxy-setup
-  STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+  STAGEGATE_BOOTSTRAPPER_HOST: gorilla-kong-edge-security-bootstrapper.bootstrapper.svc.cluster.local
   STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-  STAGEGATE_DATABASE_HOST: edgex-redis
+  STAGEGATE_DATABASE_HOST: gorilla-kong-edge-redis-database.redis.svc.cluster.local
   STAGEGATE_DATABASE_PORT: "6379"
   STAGEGATE_DATABASE_READYPORT: "6379"
   STAGEGATE_READY_TORUNPORT: "54329"
-  STAGEGATE_REGISTRY_HOST: edgex-core-consul
+  STAGEGATE_REGISTRY_HOST: gorilla-kong-edge-redis-database.consul.svc.cluster.local
   STAGEGATE_REGISTRY_PORT: "8500"
   STAGEGATE_REGISTRY_READYPORT: "54324"
-  STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+  STAGEGATE_SECRETSTORESETUP_HOST: gorilla-kong-edge-security-secret-store-setup.security-store.svc.cluster.local
   STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
   STAGEGATE_WAITFOR_TIMEOUT: 60s
-  VAULT_ADDR: http://edgex-vault:8200
+  VAULT_ADDR: http://gorilla-kong-edge-vault.vault.svc.cluster.local:30001
   VAULT_CONFIG_DIR: /vault/config
   VAULT_UI: "true"
 

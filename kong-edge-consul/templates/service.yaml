@@ -7,8 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - name: registry-control-plane
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+    - name: registry-node-plane
+      port: 54324
+      targetPort: 54324
       protocol: TCP
   selector:
     {{- include "kong-edge-consul.selectorLabels" . | nindent 4 }}

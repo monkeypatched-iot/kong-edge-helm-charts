@@ -33,7 +33,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 54322
           env:
+            - name: EDGEX_ADD_SECRETSTORE_TOKENS
           {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
@@ -43,7 +47,6 @@ spec:
           volumeMounts:
             {{- toYaml .Values.volumeMounts | default "" | nindent 12 }}
       hostname: {{ .Values.hostname }}
-      restartPolicy: {{ .Values.restartpolicy }}
       volumes:
         {{- toYaml .Values.volumes | default "" | nindent 8 }}
       {{- with .Values.nodeSelector }}

@@ -20,9 +20,11 @@ securityContext:
    capabilities:
      drop:
      - ALL
-   readOnlyRootFilesystem: false
-   runAsNonRoot: true
-   runAsUser: 1000
+   readOnlyRootFilesystem: true
+   allowPrivilageEscaltion: false
+   runAsNonRoot: false
+   runAsUser: 0
+   runAsGroup: 0
 
 serviceAccount:
   create: true
@@ -105,7 +107,7 @@ env:
   STAGEGATE_WAITFOR_TIMEOUT: 60s
 
 volumeMounts:
- - mountPath: /eedgex-init
+ - mountPath: /edgex-init
    name: edgex-init
 
 volumes:
@@ -114,7 +116,8 @@ volumes:
       claimName: edgex-init
 
 
-
+hostname: kong-edge-bootsrapper
+restartPolicy: Always
 
 
 

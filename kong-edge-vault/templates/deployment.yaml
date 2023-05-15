@@ -20,6 +20,13 @@ spec:
       labels:
         {{- include "kong-edge-vault.selectorLabels" . | nindent 8 }}
     spec:
+      affinity:
+          podAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchLabels:
+                    org.edgexfoundry.service: {{ .Values.dependencies.app.bootstrapper}}
+                topologyKey: "kubernetes.io/hostname"
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -27,6 +34,23 @@ spec:
       serviceAccountName: {{ include "kong-edge-vault.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      automountServiceAccountToken: false
+      initContainers:
+      - name: prep-volumes
+        image: busybox:latest
+        command: [ "sh", "-c", "chown -Rh 100:1000 /vault; exit 0" ]
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsUser: 0
+          runAsGroup: 0
+        volumeMounts:
+          - mountPath: /vault/config
+            name: vault-config-tmp
+          - mountPath: /vault/file
+            name: vault-file
+          - mountPath: /vault/logs
+            name: vault-logs
       containers:
         - name: {{ .Chart.Name }}
           ports:
@@ -35,6 +59,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/edgex-init/vault_wait_install.sh"]
+          args: ["server"]
           env:
           {{- range $key, $val := .Values.env }}
             - name: {{ $key }}

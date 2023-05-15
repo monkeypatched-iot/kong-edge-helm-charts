@@ -20,6 +20,13 @@ spec:
       labels:
         {{- include "kong-edge-security-secret-store-setup.selectorLabels" . | nindent 8 }}
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  org.edgexfoundry.service: {{ .Values.edgex.app.bootstrapper}}
+              topologyKey: "kubernetes.io/hostname"
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

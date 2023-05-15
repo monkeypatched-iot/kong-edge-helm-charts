@@ -81,7 +81,7 @@ env:
   EDGEX_SECURITY_SECRET_STORE: "true"
   EDGEX_USER: "2002"
   PROXY_SETUP_HOST: edgex-security-proxy-setup
-  SECRETSTORE_HOST: edgex-vault
+  SECRETSTORE_HOST: gorilla-kong-edge-vault.vault.svc.cluster.local
   SECUREMESSAGEBUS_TYPE: redis
   STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
   STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"

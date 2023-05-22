@@ -83,20 +83,20 @@ affinity: {}
 volumes:
   - name: edgex-init
     persistentVolumeClaim:
-      claimName: edgex-init
+      claimName: edgex-init-pvc
       readOnly: true
   - name: vault-file
     persistentVolumeClaim:
-      claimName: vault-file
+      claimName: vault-file-pvc
   - name: vault-logs
     persistentVolumeClaim:
-      claimName: vault-logs
+      claimName: vault-logs-pvc
   - emptyDir:
       medium: Memory
-    name: vault-config-temp
+    name: vault-config-tmp
 
 volumeMounts:
-  - mountPath: /edgex-init
+  - mountPath: /mnt
     name: edgex-init
     readOnly: true
   - mountPath: /vault/file
@@ -104,7 +104,7 @@ volumeMounts:
   - mountPath: /vault/logs
     name: vault-logs
   - mountPath: /vault/config
-    name: vault-config-temp
+    name: vault-config-tmp
 
 hostname: edgex-vault
 restartPolicy: Always

@@ -107,13 +107,13 @@ env:
   STAGEGATE_WAITFOR_TIMEOUT: 60s
 
 volumeMounts:
- - mountPath: /edgex-init
+ - mountPath: /mnt
    name: edgex-init
 
 volumes:
   - name: edgex-init
     persistentVolumeClaim:
-      claimName: edgex-init
+      claimName: edgex-init-pvc
 
 
 hostname: kong-edge-bootsrapper

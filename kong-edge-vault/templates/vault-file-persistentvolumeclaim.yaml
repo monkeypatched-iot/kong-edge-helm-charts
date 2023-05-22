@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  creationTimestamp: null
-  name: vault-file
+  name: vault-file-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
+  storageClassName: "openebs-rwx"
   resources:
     requests:
-      storage: 100Mi
-status: {}
+      storage: 1Gi

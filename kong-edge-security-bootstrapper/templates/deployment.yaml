@@ -33,6 +33,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [ "sleep" ]
+          args: [ "infinity" ]
           env:
           {{- range $key, $val := .Values.env }}
             - name: {{ $key }}

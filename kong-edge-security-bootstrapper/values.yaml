@@ -113,7 +113,8 @@ volumeMounts:
 volumes:
   - name: edgex-init
     persistentVolumeClaim:
-      claimName: edgex-init-pvc
+      claimName: edgex-init-bootstrapper-pvc
+
 
 
 hostname: kong-edge-bootsrapper

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: edgex-init-bootstrapper-nfs-bind
+  namespace: bootstrapper
+spec:
+  storageClassName: openebs-nfs
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 1Gi
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+     namespace: bootstrapper
+     name: edgex-init-bootstrapper-pvc
+  mountOptions:
+  - port=30853
+  nfs:
+    path: /edgex-init
+    server: 192.168.29.201
+    readOnly: false

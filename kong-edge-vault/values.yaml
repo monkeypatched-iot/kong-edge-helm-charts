@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: hashicorp/vault
+  repository: hashicorp/vault:latest
   pullPolicy: Always
   name: edgex-vault
   tag: ""
@@ -83,8 +83,8 @@ affinity: {}
 volumes:
   - name: edgex-init
     persistentVolumeClaim:
-      claimName: edgex-init-pvc
-      readOnly: true
+      claimName: edgex-init-vault-pvc
+      readOnly: false
   - name: vault-file
     persistentVolumeClaim:
       claimName: vault-file-pvc
@@ -98,7 +98,7 @@ volumes:
 volumeMounts:
   - mountPath: /mnt
     name: edgex-init
-    readOnly: true
+    readOnly: false
   - mountPath: /vault/file
     name: vault-file
   - mountPath: /vault/logs

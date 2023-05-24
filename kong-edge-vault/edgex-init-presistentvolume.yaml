@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: edgex-init-vault-nfs-bind
+  namespace: vault
+spec:
+  storageClassName: openebs-nfs
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 1Gi
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+     namespace: vault
+     name: edgex-init-vault-pvc
+  mountOptions: # https://www.commandlinux.com/man-page/man5/nfs.5.html
+  - port=30853
+  nfs:
+    path: /edgex-init
+    server: 192.168.29.201
+    readOnly: false
+

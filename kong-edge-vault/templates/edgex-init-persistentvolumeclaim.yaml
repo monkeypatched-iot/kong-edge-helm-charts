@@ -1,10 +1,13 @@
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
-  name: edgex-init-pvc
+ name:  edgex-init-vault-pvc
+ namespace: vault
+ annotations:
+    volume.beta.kubernetes.io/storage-class: "openebs-rwx"
 spec:
   accessModes:
-    - ReadWriteMany
+  - ReadWriteMany
   storageClassName: "openebs-rwx"
   resources:
     requests:

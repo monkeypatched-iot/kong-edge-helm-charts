@@ -12,6 +12,8 @@ image:
 imagePullSecrets:
   - name: regcred
 
+startupProbe: 54321
+livenessProbe: 54321
 nameOverride: ""
 fullnameOverride: ""
 
@@ -46,7 +48,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 54321
+  port: 22
 
 ingress:
   enabled: false

@@ -113,7 +113,7 @@ restartPolicy: Always
 
 env:
   PROXY_SETUP_HOST: edgex-security-proxy-setup
-  STAGEGATE_BOOTSTRAPPER_HOST: gorilla-kong-edge-security-bootstrapper.bootstrapper.svc.cluster.local
+  STAGEGATE_BOOTSTRAPPER_HOST: 10.43.64.66
   STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
   STAGEGATE_DATABASE_HOST: gorilla-kong-edge-redis-database.redis.svc.cluster.local
   STAGEGATE_DATABASE_PORT: "6379"

@@ -4,11 +4,11 @@ metadata:
  name:  edgex-init-bootstrapper-pvc
  namespace: bootstrapper
  annotations:
-    volume.beta.kubernetes.io/storage-class: "openebs-rwx"
+    volume.beta.kubernetes.io/storage-class: "nfs-client"
 spec:
   accessModes:
   - ReadWriteMany
-  storageClassName: "openebs-rwx"
+  storageClassName: "nfs-client"
   resources:
     requests:
       storage: 1Gi

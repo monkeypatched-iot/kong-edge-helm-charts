@@ -81,10 +81,11 @@ affinity: {}
 
 
 volumes:
-  - name: edgex-init
-    persistentVolumeClaim:
-      claimName: edgex-init-vault-pvc
-      readOnly: false
+  - name: edgex-vault-init
+  # set the server and path to share
+    nfs:
+      path: /nfs_server_mount
+      server: 192.168.29.201
   - name: vault-file
     persistentVolumeClaim:
       claimName: vault-file-pvc
@@ -96,8 +97,9 @@ volumes:
     name: vault-config-tmp
 
 volumeMounts:
-  - mountPath: /mnt
-    name: edgex-init
+  # set the folder to be created in the container
+  - mountPath: /edgex-init
+    name: edgex-vault-init
     readOnly: false
   - mountPath: /vault/file
     name: vault-file

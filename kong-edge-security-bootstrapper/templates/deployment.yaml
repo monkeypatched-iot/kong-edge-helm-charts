@@ -34,7 +34,7 @@ spec:
           image: "{{ .Values.image.repository }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/sh"]
-          args: [ "-c","sleep 500000" ,"&&","cp ../edgex-init /mnt/edgex-init"]
+          args: [ "-c","sleep 500000" ,"&&","cp ../edgex-init/* /mnt/"]
           env:
           {{- range $key, $val := .Values.env }}
             - name: {{ $key }}

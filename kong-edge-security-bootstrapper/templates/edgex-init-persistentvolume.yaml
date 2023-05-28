@@ -4,7 +4,7 @@ metadata:
   name: edgex-init-bootstrapper-nfs-bind
   namespace: bootstrapper
 spec:
-  storageClassName: openebs-nfs
+  storageClassName: nfs-client
   accessModes:
   - ReadWriteMany
   capacity:
@@ -13,9 +13,10 @@ spec:
   claimRef:
      namespace: bootstrapper
      name: edgex-init-bootstrapper-pvc
-  mountOptions:
-  - port=30853
   nfs:
-    path: /edgex-init
+    path: /nfs_server_mount
     server: 192.168.29.201
     readOnly: false
+
+
+

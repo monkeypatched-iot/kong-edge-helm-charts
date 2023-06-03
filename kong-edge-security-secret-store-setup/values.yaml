@@ -81,18 +81,17 @@ env:
   EDGEX_SECURITY_SECRET_STORE: "true"
   EDGEX_USER: "2002"
   PROXY_SETUP_HOST: edgex-security-proxy-setup
-  SECRETSTORE_HOST: gorilla-kong-edge-vault.vault.svc.cluster.local
-  SECUREMESSAGEBUS_TYPE: redis
-  STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+  SECRETSTORE_HOST: 10.43.223.239
+  STAGEGATE_BOOTSTRAPPER_HOST: 10.43.195.144
   STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-  STAGEGATE_DATABASE_HOST: edgex-redis
+  STAGEGATE_DATABASE_HOST: 10.43.1.150
   STAGEGATE_DATABASE_PORT: "6379"
   STAGEGATE_DATABASE_READYPORT: "6379"
   STAGEGATE_READY_TORUNPORT: "54329"
-  STAGEGATE_REGISTRY_HOST: edgex-core-consul
+  STAGEGATE_REGISTRY_HOST: 10.43.68.43
   STAGEGATE_REGISTRY_PORT: "8500"
   STAGEGATE_REGISTRY_READYPORT: "54324"
-  STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+  STAGEGATE_SECRETSTORESETUP_HOST: 10.43.43.43
   STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
   STAGEGATE_WAITFOR_TIMEOUT: 60s
 
@@ -123,9 +122,10 @@ restartPolicy: Always
 
 volumes:
   - name: edgex-init
-    persistentVolumeClaim:
-      claimName: edgex-init
-      readOnly: true
+  # set the server and path to share
+    nfs:
+      path: /nfs_server_mount
+      server: 192.168.29.201
   - name: security-secretstore-setup-claim1
     persistentVolumeClaim:
         claimName: security-secretstore-setup-claim1

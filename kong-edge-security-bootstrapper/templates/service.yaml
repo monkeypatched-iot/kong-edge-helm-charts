@@ -8,8 +8,12 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort:  {{ .Values.service.port }}
       protocol: TCP
-      name: http
+      name: tcp
+    - port: 54321
+      targetPort: 54321
+      protocol: TCP
+      name: readiness
   selector:
     {{- include "kong-edge-security-bootstrapper.selectorLabels" . | nindent 4 }}
